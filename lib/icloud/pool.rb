@@ -48,6 +48,10 @@ module ICloud
       find_by_type Reminder
     end
 
+    def events
+      find_by_type Event
+    end
+
     def find_by_type cls
       @objects.values.select do |obj|
         obj.is_a? cls

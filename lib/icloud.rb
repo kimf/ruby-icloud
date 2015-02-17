@@ -18,6 +18,7 @@ require "icloud/records/alarm"
 require "icloud/records/collection"
 require "icloud/records/dsinfo"
 require "icloud/records/reminder"
+require "icloud/records/event"
 
 require "icloud/porcelain/reminder"
 

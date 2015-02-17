@@ -5,6 +5,8 @@ require "cgi"
 require "uri"
 require "net/https"
 require "json/pure"
+require 'active_support/all'
+require "byebug"
 
 module ICloud
   class Session
@@ -57,6 +59,12 @@ module ICloud
     def collections
       ensure_logged_in
       @pool.find_by_type(Records::Collection)
+    end
+
+    def events(start=Date.today, stop=Date.today+7.days)
+      ensure_logged_in
+      update(get_events(start, stop))
+      @pool.find_by_type(Records::Event)
     end
 
     def reminders
@@ -178,13 +186,19 @@ module ICloud
       get(service_url(:reminders, "/rd/completed"))
     end
 
+    def get_events(start, stop)
+      ensure_logged_in
+      params = {"startDate" => start.to_date.to_s(:db), "endDate" => stop.to_date.to_s(:db)}
+      get(service_url(:calendar, "/ca/events"), params)
+    end
+
     #
     # Internal: Returns a Net::HTTP object for host:post, which may or may not
     # have already been used. Proxies and SSL are taken care of.
     #
     def http(host, port)
       @http["#{host}:#{port}"] ||= http_class.new(host, port).tap do |http|
-        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+        http.verify_mode = 0
         http.use_ssl = true
       end
     end
@@ -226,8 +240,8 @@ module ICloud
 
     def default_params
       {
-        "lang" => "en-us",
-        "usertz" => "America/New_York",
+        "lang" => "sv-se",
+        "usertz" => "Europe/Stockholm",
         "dsid" => @user.dsid
       }
     end
@@ -321,7 +335,7 @@ module ICloud
     # arbitrary. Please change if it you substantially fork the library.
     #
     def default_client_id
-      "1B47512E-9743-11E2-8092-7F654762BE04"
+      "D25CD1BE-843C-46B1-B13F-D478FA9BD8D4"
     end
   end
 end

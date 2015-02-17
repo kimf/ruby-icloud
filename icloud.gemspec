@@ -14,6 +14,9 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "json_pure"
   gem.add_dependency "uuidtools"
+  gem.add_dependency "activesupport"
+
+  gem.add_development_dependency "byebug"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }

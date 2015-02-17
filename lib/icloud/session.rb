@@ -5,8 +5,7 @@ require "cgi"
 require "uri"
 require "net/https"
 require "json/pure"
-require 'active_support/all'
-require "byebug"
+require "active_support/all"
 
 module ICloud
   class Session

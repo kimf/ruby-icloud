@@ -7,7 +7,13 @@ module ICloud
       include Record
       has_fields(
         :title,
+        :start_date,
         :local_start_date,
+        :local_end_date,
+        :end_date,
+        :duration,
+        :icon,
+        :event_status,
         :etag,
         :guid,
         :p_guid,
@@ -15,7 +21,6 @@ module ICloud
         :location,
         :tz
       )
-
       def initialize
         @alarms = []
       end
